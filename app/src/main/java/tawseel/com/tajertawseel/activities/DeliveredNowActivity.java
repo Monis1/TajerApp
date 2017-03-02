@@ -90,7 +90,7 @@ ArrayList< PostGroupData> list = new ArrayList<>();
         });
 
         final String DeligateID= getIntent().getExtras().getString("DeligateID");
-        ImageView btnImageDeligate = (ImageView)findViewById(R.id.BtnImage) ;
+        ImageView btnImageDeligate = (ImageView)findViewById(R.id.DelegateBtnImage) ;
         btnImageDeligate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

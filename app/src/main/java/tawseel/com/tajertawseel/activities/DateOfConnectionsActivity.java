@@ -45,6 +45,7 @@ import tawseel.com.tajertawseel.adapters.DelegatesQuestionAdapter;
  * Created by Junaid-Invision on 7/28/2016.
  */
 public class DateOfConnectionsActivity extends BaseActivity {
+
     ListView mLisView;
     private ImageView deleteIcon;
     private CustomBoldTextView title;
@@ -70,8 +71,9 @@ public class DateOfConnectionsActivity extends BaseActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Loading...");
         progress.show();
-        StringRequest request = new StringRequest(Request.Method.POST,functions.add+"delivers.php", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET,functions.add+"delivers.php?id="+HomeActivity.id, new Response.Listener<String>() {
             public void onResponse(String response) {
+
                 try {
                     JSONObject mainObj=new JSONObject(response);
                     JSONArray jsonArr=mainObj.getJSONArray("info");
@@ -85,16 +87,19 @@ public class DateOfConnectionsActivity extends BaseActivity {
                             data.add(tdata1);
 
                             date=jsonObj.getString("DeliveryDate");
-                        DateOfConnectionsData tdata=new DateOfConnectionsData();
-                        tdata.setGid(jsonObj.getString("GroupID"));
-                        tdata.setDate(jsonObj.getString("DeliveryDate"));
-                        tdata.setGname(jsonObj.getString("name"));
-                        tdata.setTime(jsonObj.getString("Deliverytime"));
-                        tdata.setTitle("");
-                        tdata.setDname(jsonObj.getString("Name"));
-                        tdata.setDelivers(jsonObj.getString("orders"));
-                        tdata.setStars(jsonObj.getString("delivers"));
-                        data.add(tdata);
+                            DateOfConnectionsData tdata=new DateOfConnectionsData();
+                            tdata.setGid(jsonObj.getString("GroupID"));
+                            tdata.setDate(jsonObj.getString("DeliveryDate"));
+                            tdata.setGname(jsonObj.getString("name"));
+                            tdata.setTime(jsonObj.getString("Deliverytime"));
+                            tdata.setTitle("");
+                            tdata.setDname(jsonObj.getString("Name"));
+                            tdata.setDelivers(jsonObj.getString("orders"));
+                            tdata.setStars(jsonObj.getString("delivers"));
+                            tdata.setGroupType(jsonObj.getString("GroupType"));
+                            if(jsonObj.getString("error").compareTo("true")==0)
+                                tdata.setError(true);
+                            data.add(tdata);
 
                         }
                         else
@@ -116,6 +121,9 @@ public class DateOfConnectionsActivity extends BaseActivity {
                                 tdata.setDname(jsonObj.getString("Name"));
                                 tdata.setDelivers(jsonObj.getString("orders"));
                                 tdata.setStars(jsonObj.getString("delivers"));
+                                tdata.setGroupType(jsonObj.getString("GroupType"));
+                                if(jsonObj.getString("error").compareTo("true")==0)
+                                    tdata.setError(true);
                                 data.add(tdata);
 
                             }
@@ -130,12 +138,15 @@ public class DateOfConnectionsActivity extends BaseActivity {
                                 tdata.setDname(jsonObj.getString("Name"));
                                 tdata.setDelivers(jsonObj.getString("orders"));
                                 tdata.setStars(jsonObj.getString("delivers"));
+                                tdata.setGroupType(jsonObj.getString("GroupType"));
+                                if(jsonObj.getString("error").compareTo("true")==0)
+                                    tdata.setError(true);
                                 data.add(tdata);
                             }
                         }
                     }
                     progress.dismiss();
-                    mLisView.setAdapter(new DateOfConnectionsAdapter(DateOfConnectionsActivity.this,data));
+                    mLisView.setAdapter(new DateOfConnectionsAdapter(DateOfConnectionsActivity.this,data,getWindow()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     progress.dismiss();
@@ -144,7 +155,8 @@ public class DateOfConnectionsActivity extends BaseActivity {
                                 .setAction("Reload", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(getIntent());finish();
+                                        startActivity(getIntent());
+                                        finish();
                                     }
                                 })
                                 .setActionTextColor(Color.RED)
@@ -170,14 +182,7 @@ public class DateOfConnectionsActivity extends BaseActivity {
                             .show();}
             }
         }) {
-            //send data to server using POST
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> hashMap = new HashMap<String, String>();
-                hashMap.put("id",HomeActivity.id);
-                hashMap.put("hash",HASH.getHash());
-                return hashMap;
-            }
+
         };
         try{
             requestQueue= Volley.newRequestQueue(DateOfConnectionsActivity.this);
@@ -205,10 +210,13 @@ public class DateOfConnectionsActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // T.2.1
-                Intent intent=new Intent(DateOfConnectionsActivity.this,PostGroupActivity.class);
-                intent.putExtra("id",data.get(i).getGid().toString());
-                intent.putExtra("flag","false");
-                startActivity(intent);
+
+                    Intent intent = new Intent(DateOfConnectionsActivity.this, PostGroupActivity.class);
+                    intent.putExtra("id", data.get(i).getGid());
+                    intent.putExtra("flag", "false");
+                    intent.putExtra("gtype",data.get(i).getGroupType());
+                    startActivity(intent);
+
             }
         });
 
@@ -248,7 +256,7 @@ public class DateOfConnectionsActivity extends BaseActivity {
                     }
 
 
-            }
+                }
                 return false;
             }
         });

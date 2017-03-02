@@ -126,8 +126,8 @@ Intent i = new Intent(ConfirmationTab.this,ComfirmationActivity.class);
         TextView deliveyprice = (TextView)findViewById(R.id.DeliveryPrice);
         deliveyprice.setText("" +getIntent().getStringExtra("PriceRange"));
         TextView profit = (TextView)findViewById(R.id.Profit);
-        profit.setText("" +((Integer.parseInt(getIntent().getStringExtra("ItemsPrice"))*10)/100));
-        int x = Integer.parseInt(totalprice.getText().toString())+ Integer.parseInt(deliveyprice.getText().toString())+Integer.parseInt(profit.getText().toString());
+        profit.setText("" +((Double.parseDouble(getIntent().getStringExtra("ItemsPrice"))*10.0)/100.0));
+        double x = Double.parseDouble(totalprice.getText().toString())+ Double.parseDouble(deliveyprice.getText().toString())+Double.parseDouble(profit.getText().toString());
       TextView total = (TextView)findViewById(R.id.TotalPrice2);
         total.setText(""+x);
 
@@ -216,7 +216,12 @@ RunVolley("2",dialog);
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Loading...");
         progress.show();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"GroupItem.php?id="+getIntent().getExtras().getString("GroupID"),
+        String file;
+        if(getIntent().getExtras().getString("GroupType").compareTo("lap")==0)
+            file="laporders.php";
+        else
+        file="GroupItem.php";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+file+"?id="+getIntent().getExtras().getString("GroupID"),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

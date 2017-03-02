@@ -11,6 +11,25 @@ public class DateOfConnectionsData {
     String date;
     String dname;
     String delivers;
+    String GroupType;
+
+    public String getGroupType() {
+        return GroupType;
+    }
+
+    public void setGroupType(String groupType) {
+        GroupType = groupType;
+    }
+
+    boolean error;
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
 
     public String getStars() {
         return stars;

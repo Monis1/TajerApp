@@ -35,11 +35,20 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/search"
+            android:src="@drawable/aroundclock"
             android:padding="3dp"
             android:layout_centerVertical="true"
 
-            />
+            android:id="@+id/clock" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/belll"
+            android:padding="3dp"
+            android:layout_marginLeft="40dp"
+            android:layout_centerVertical="true"
+
+            android:id="@+id/bell" />
         
         
         

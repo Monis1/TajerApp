@@ -35,7 +35,7 @@ public class ViewHolder {
     ImageView OrderMoveButton, OrderDeleteButton;
     //product GroupList
 
-    TextView Quantity, ProductID, ProductName, ProductPrice, Description;
+    TextView Quantity, ProductID, ProductName, ProductPrice, Description,Cancel;
 
 
     //PickSetAdapter

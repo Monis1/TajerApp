@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -73,10 +72,11 @@ ll = (RelativeLayout)mRootView.findViewById(R.id.ll);
         list.clear();
         requestQueue = Volley.newRequestQueue(getActivity());
         listView = (ListView)mRootView.findViewById(R.id.listView);
+        mRootView.findViewById(R.id.BtnNext).setVisibility(View.INVISIBLE);
         mRootView.findViewById(R.id.BtnNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialogue();
+               // showDialogue();
                 // showNotificationDialogue();
             }
         });
@@ -90,7 +90,8 @@ ll = (RelativeLayout)mRootView.findViewById(R.id.ll);
         final ProgressDialog progress = new ProgressDialog(getActivity(), ProgressDialog.THEME_HOLO_DARK);
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Loading...");
-        progress.show();
+try {        progress.show();}
+catch ( Exception e ){}
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"TajerHomeFragment1.php?id="+HomeActivity.id
                 ,
                 new Response.Listener<JSONObject>() {
@@ -166,9 +167,9 @@ ll = (RelativeLayout)mRootView.findViewById(R.id.ll);
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getActivity(),PostGroupActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 i.putExtra("id",list.get(position).getGroupID()+"");
                 i.putExtra("flag","true");
+                i.putExtra("gtype","lap");
                 startActivity(i);
             }
         });
@@ -216,7 +217,7 @@ ll = (RelativeLayout)mRootView.findViewById(R.id.ll);
         dialog.findViewById(R.id.BtnNewOrder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddNewOrderActivity.class));
+                startActivity(new Intent(getActivity(), PostNewGroupActivity.class));
             }
         });
         dialog.findViewById(R.id.BtnNewGroup).setOnClickListener(new View.OnClickListener() {
@@ -253,7 +254,7 @@ ll = (RelativeLayout)mRootView.findViewById(R.id.ll);
         dialog.findViewById(R.id.tt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddNewOrderActivity.class));
+                startActivity(new Intent(getActivity(),PostNewGroupActivity.class));
             }
         });
 

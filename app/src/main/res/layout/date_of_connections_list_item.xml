@@ -71,7 +71,8 @@
                     android:orientation="vertical"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp">
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/linearLayout">
 
 
                     <tawseel.com.tajertawseel.CustomBoldTextView
@@ -99,6 +100,16 @@
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/error_msg"
+
+                    android:textColor="@color/red"
+                    android:layout_alignTop="@+id/linearLayout"
+                    android:layout_toRightOf="@+id/tick_view"
+                    android:layout_toEndOf="@+id/tick_view" />
             </RelativeLayout>
 
 

@@ -139,6 +139,10 @@
     <string name="contact_number">رقم التواصل</string>
     <string name="last_connection_was_on">آخر توصيلة كانت بتاريخ</string>
 
+    <string name="date">بتاريخ</string>
+    <string name="status">استلمھا المندوب</string>
+    <string name="continue_order">جاري شحن الطلب</string>
+    <string name="required">ارجاع الطلب</string>
     <string name="connecting_profile_delegates">بروفايل مندوب توصيل</string>
     <string name="the_map">الخريطة</string>
     <string name="dilevered_now">يتم توصيلها الآن</string>
@@ -207,4 +211,6 @@
 </string>
     <string name="tajerlapgroup">سلال طلبات تاجر لاب</string>
     <string name="tajertawseelgroup">سلال الطلبات اليدوية</string>
+    <string name="home">الرئيسية</string>
+    <string name="wallet">المستحقات المالية</string>
 </resources>

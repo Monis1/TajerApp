@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,11 +62,12 @@ import tawseel.com.tajertawseel.firebase.FirebaseInstanceIDService;
 public class DeligateHomeActivity extends BaseActivity implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<LocationSettingsResult> {
     static String DeligateID;
     private ViewPager homePager;
-    private TabLayout homeTabLayout;
+    private FrameLayout homeTabLayout;
     private DrawerLayout mDrawerLayout;
     protected GoogleApiClient mGoogleApiClient;
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +94,7 @@ public class DeligateHomeActivity extends BaseActivity implements View.OnClickLi
 
     private void setUpContents() {
 
-       boolean CheckLogin=false;
+        boolean CheckLogin=false;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.homeDrawer);
         mDrawerLayout.openDrawer(Gravity.RIGHT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -107,12 +109,12 @@ public class DeligateHomeActivity extends BaseActivity implements View.OnClickLi
             }
         });
         TextView DeligateID2= (TextView)mDrawerLayout.findViewById(R.id.DeligateID);
-                DeligateID2.setText(LoginActivity.DeligateID);
+        DeligateID2.setText(LoginActivity.DeligateID);
         TextView DeligateName= (TextView)mDrawerLayout.findViewById(R.id.TajerName);
         DeligateName.setText(LoginActivity.email);
 
         try {
-          CheckLogin = getIntent().getExtras().getBoolean("flag");
+            CheckLogin = getIntent().getExtras().getBoolean("flag");
         }
         catch (Exception e)
         {}
@@ -122,46 +124,37 @@ public class DeligateHomeActivity extends BaseActivity implements View.OnClickLi
             FirebaseInstanceIDService dd = new FirebaseInstanceIDService();
             String token = FirebaseInstanceId.getInstance().getToken();
             DeligateID = getIntent().getExtras().getString("DeligateID");
-           // Toast.makeText(getApplicationContext(),DeligateID,Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(),DeligateID,Toast.LENGTH_SHORT).show();
             dd.registerToken(token, DeligateID, Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID) + "");
 //            Intent i = new Intent(DeligateHomeActivity.this,UpdateLocation.class);
 //            startService(i);
         }
 
 
+try {
+
+    homePager = (ViewPager) findViewById(R.id.homePager);
+    homeTabLayout = (FrameLayout) findViewById(R.id.home_tabLayout);
+
+    homePager.setAdapter(new DelegatesHomeAdapter(getSupportFragmentManager()));
+
+    LayoutInflater inflater = LayoutInflater.from(this);
+
+    View view1 = inflater.inflate(R.layout.tab_text_layout, null, false);
+    TextView text = (TextView) view1.findViewById(R.id.tab_text);
+    text.setText(getString(R.string.the_map));
+    homeTabLayout.addView(view1);
+}
+catch (Exception e)
+{
+    Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+}
 
 
-        homePager = (ViewPager) findViewById(R.id.homePager);
-        homeTabLayout = (TabLayout) findViewById(R.id.home_tabLayout);
-
-        homePager.setAdapter(new DelegatesHomeAdapter(getSupportFragmentManager()));
-        homeTabLayout.setupWithViewPager(homePager);
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        // TabLayout.Tab tab1= homeTabLayout.getTabAt(0);
-
-        View view1 = inflater.inflate(R.layout.tab_text_layout, null, false);
-        TextView text = (TextView) view1.findViewById(R.id.tab_text);
-        text.setText(getString(R.string.the_map));
-        homeTabLayout.getTabAt(0).setCustomView(view1);
-
-
-
-        /// second tab
-
-        // TabLayout.Tab tab2= homeTabLayout.getTabAt(0);
-
-        View view2 = inflater.inflate(R.layout.tab_text_layout, null, false);
-        TextView text2 = (TextView) view2.findViewById(R.id.tab_text);
-        text2.setText(getString(R.string.dilevered_now));
-        homeTabLayout.getTabAt(1).setCustomView(view2);
-
-       // setupListeners();
     }
 
     public void setupListeners() {
-       // mDrawerLayout.findViewById(R.id.option1).setOnClickListener(this);
+        // mDrawerLayout.findViewById(R.id.option1).setOnClickListener(this);
         //mDrawerLayout.findViewById(R.id.option2).setOnClickListener(this);
         mDrawerLayout.findViewById(R.id.option3).setOnClickListener(this);
         mDrawerLayout.findViewById(R.id.option4).setOnClickListener(this);
@@ -182,11 +175,7 @@ public class DeligateHomeActivity extends BaseActivity implements View.OnClickLi
             Intent intent = new Intent(DeligateHomeActivity.this, DeligateDateOfConnectionActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.confirmation){
-RunVolley();
-            //Intent i  = new Intent(DeligateHomeActivity.this,ComfirmationActivity.class);
-//            Intent i  = new Intent(DeligateHomeActivity.this,ConfirmationTab.class);
-//            startActivity(i);
-           // finish();
+            RunVolley();
         }
         else if (v.getId() == R.id.option4){
 
@@ -296,25 +285,24 @@ RunVolley();
                         try {
 
                             JSONArray jsonArr=response.getJSONArray("info");
-                           final JSONObject jsonObj = jsonArr.getJSONObject(0);
+                            final JSONObject jsonObj = jsonArr.getJSONObject(0);
                             if (jsonObj.getString("name").equals("test786w")){
                                 Toast.makeText(DeligateHomeActivity.this,"You have no pending Delivery",Toast.LENGTH_SHORT).show();
-
                             }
                             else {
-
-                                Intent i  = new Intent(DeligateHomeActivity.this,ConfirmationTab.class);
-                                i.putExtra("ConfirmationCode",jsonObj.getString("ConfirmationCode"));
-                                i.putExtra("GroupID",jsonObj.getString("GroupID"));
-                                i.putExtra("TajerID",jsonObj.getString("TajerID"));
-                                i.putExtra("ItemsPrice",jsonObj.getString("ItemsPrice"));
-                                i.putExtra("PriceRange",jsonObj.getString("PriceRange"));
-                                i.putExtra("TajerContact",jsonObj.getString("TajerContact"));
-                                i.putExtra("StatusCode",jsonObj.getString("StatusCode"));
-                                i.putExtra("TajerName",jsonObj.getString("TajerName"));
-                                i.putExtra("TajerLat",jsonObj.getString("TajerLat"));
-                                i.putExtra("TajerLng",jsonObj.getString("TajerLng"));
-                                startActivity(i);
+                                Intent pending = new Intent(DeligateHomeActivity.this,ConfirmationTab.class);
+                                pending.putExtra("ConfirmationCode",jsonObj.getString("ConfirmationCode"));
+                                pending.putExtra("GroupID",jsonObj.getString("GroupID"));
+                                pending.putExtra("TajerID",jsonObj.getString("TajerID"));
+                                pending.putExtra("ItemsPrice",jsonObj.getString("ItemsPrice"));
+                                pending.putExtra("PriceRange",jsonObj.getString("PriceRange"));
+                                pending.putExtra("TajerContact",jsonObj.getString("TajerContact"));
+                                pending.putExtra("StatusCode",jsonObj.getString("StatusCode"));
+                                pending.putExtra("TajerName",jsonObj.getString("TajerName"));
+                                pending.putExtra("TajerLat",jsonObj.getString("TajerLat"));
+                                pending.putExtra("TajerLng",jsonObj.getString("TajerLng"));
+                                pending.putExtra("GroupType",jsonObj.getString("GroupType"));
+                                startActivity(pending);
                             }
 
 
@@ -336,7 +324,7 @@ RunVolley();
 //                                item.setLongitude(jsonObj.getString("Longitude"));
 //                                item.setID(jsonObj.getString("ID"));
 
-progress.dismiss();
+                            progress.dismiss();
 
 
                         } catch (JSONException e) {
@@ -349,11 +337,11 @@ progress.dismiss();
                                             @Override
                                             public void onClick(View v) {
 
-                        }
-                    })
-                            .setActionTextColor(Color.RED)
+                                            }
+                                        })
+                                        .setActionTextColor(Color.RED)
 
-                    .show();}
+                                        .show();}
                         };
                     }
                 },

@@ -120,6 +120,9 @@
         <activity android:name=".activities.TajerLapOrder"/>
         <activity android:name=".activities.PostNewGroupTajerLapActivity"/>
         <activity android:name=".activities.PostOrderAddGroupActivity"/>
+        <activity android:name=".activities.CardDeliveryNow"></activity>
+        <activity android:name=".activities.ActivityNotification"></activity>
+        <activity android:name=".activities.TajerConfirmationTab"></activity>
     </application>
 
 </manifest>

@@ -157,7 +157,6 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/moreButton2"
                 android:padding="15dp">
 
                 <tawseel.com.tajertawseel.CustomBoldTextView
@@ -190,7 +189,8 @@
                     android:id="@+id/BtnCode"
                     android:layout_width="60dp"
                     android:gravity="center"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:clickable="true" />
 
                 <LinearLayout
                     android:layout_height="30dp"
@@ -208,6 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right"
+                    android:id="@+id/moreButton2"
                     android:layout_marginRight="15dp">
 
                     <tawseel.com.tajertawseel.CustomBoldTextView

@@ -64,7 +64,7 @@ public class PostNewGroupActivity extends BaseActivity {
 
                                         progress.dismiss();
                                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                                        Intent i = new Intent(PostNewGroupActivity.this, DeliveryGroupActivity.class);
+                                        Intent i = new Intent(PostNewGroupActivity.this, CustomerRequestActivity.class);
                                         startActivity(i);
                                         finish();
                                     } else {

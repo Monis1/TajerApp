@@ -169,7 +169,13 @@ import tawseel.com.tajertawseel.adapters.PostGroupListAdapter;
 
             progress.setMessage("Loading...");
             progress.show();
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"GroupItem.php?id="+getIntent().getExtras().getString("id"),
+            String file;
+            Toast.makeText(this,getIntent().getExtras().getString("gtype"),Toast.LENGTH_SHORT).show();
+            if(getIntent().getExtras().getString("gtype").compareTo("lap")==0)
+                file="laporders.php";
+            else
+                file="GroupItem.php";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+file+"?id="+getIntent().getExtras().getString("id"),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

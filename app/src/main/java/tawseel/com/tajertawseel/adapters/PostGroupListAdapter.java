@@ -130,10 +130,9 @@ public class PostGroupListAdapter extends BaseAdapter {
            holder.PriceRangeText = (TextView) content.findViewById(R.id.PriceRange);
             holder.TotalPrice= (TextView) content.findViewById(R.id.TotalPrice);
             holder.PayMethod= (TextView)content.findViewById(R.id.PaymentType) ;
-
             holder.ItemsPrice.setText(data.getItemsPrice());
             holder.PriceRangeText.setText(data.getPriceRange());
-            holder.TotalPrice.setText(Integer.parseInt(data.getItemsPrice()) + (Integer.parseInt(data.getPriceRange())) + "");
+            holder.TotalPrice.setText(Double.parseDouble(data.getItemsPrice()) + (Double.parseDouble(data.getPriceRange())) + "");
             if (data.getPayMethod().equals("1"))
             {
                 holder.PayMethod.setText(R.string.wire_transfer);

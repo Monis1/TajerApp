@@ -83,7 +83,8 @@
         android:dividerHeight="8dp"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
-        android:paddingTop="5dp"></ListView>
+        android:paddingTop="5dp"
+        android:paddingBottom="71dp"></ListView>
 
 
     <tawseel.com.tajertawseel.CustomBoldTextView

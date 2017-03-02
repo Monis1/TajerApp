@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import tawseel.com.tajertawseel.activities.DeliveryGroupActivity;
+import tawseel.com.tajertawseel.activities.LoginActivity;
 import tawseel.com.tajertawseel.activities.PostGroupActivity;
 import tawseel.com.tajertawseel.activities.functions;
 
@@ -76,7 +77,8 @@ public class HomeFragment3 extends Fragment {
         final ProgressDialog progress = new ProgressDialog(getActivity(), ProgressDialog.THEME_HOLO_DARK);
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Loading...");
-        progress.show();
+        try {        progress.show();}
+        catch ( Exception e ){}
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"TajerHomeFragment3.php?id="+HomeActivity.id
                 ,
                 new Response.Listener<JSONObject>() {
@@ -152,7 +154,7 @@ public class HomeFragment3 extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getActivity(),PostGroupActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                i.putExtra("gtype","simple");
                 i.putExtra("id",list.get(position).getGroupID()+"");
                 i.putExtra("flag","true");
                 startActivity(i);

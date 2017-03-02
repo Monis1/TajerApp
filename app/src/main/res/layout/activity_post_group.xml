@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
-
-
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -118,9 +113,32 @@
     </android.support.v7.widget.CardView>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:divider="@android:color/transparent"
@@ -135,7 +153,8 @@
         android:layout_height="300dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -240,11 +259,5 @@
     </android.support.v7.widget.CardView>
 
     </LinearLayout>
-    </ScrollView>
-
-
-
-
-
     </LinearLayout>
 

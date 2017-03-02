@@ -133,8 +133,6 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.Conne
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
               email = email_ET.getText().toString();
                 final String pass = pass_ET.getText().toString();
                 if (functions.isEmailTrue(email, getApplicationContext()) || functions.isPasswordTrue(pass,getApplicationContext())) {
@@ -148,6 +146,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.Conne
                    request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                        //if response
                         public void onResponse(String response) {
+                           // response = response.substring(1);
+                            Log.d("RESSSSSSSSSSS",response);
+                           // Toast.makeText(LoginActivity.this, response+"", Toast.LENGTH_LONG).show();
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(response);

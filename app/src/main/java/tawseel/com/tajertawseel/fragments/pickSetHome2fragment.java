@@ -79,7 +79,7 @@ public class pickSetHome2fragment extends Fragment {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Loading...");
         progress.show();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"InfoGroup3.php?id="+ HomeActivity.id+"&hash="+ HASH.getHash(),
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"InfoGroup4.php?id="+ HomeActivity.id+"&hash="+ HASH.getHash(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -164,7 +164,7 @@ public class pickSetHome2fragment extends Fragment {
                 i.putExtra("DeligateNumber",list.get(position).getDeligateNumber()).toString();
                 i.putExtra("DeligateID",list.get(position).getDeligateID().toString());
                 startActivity(i);
-                getActivity().finish();
+
 
             }
         });

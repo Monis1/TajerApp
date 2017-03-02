@@ -32,11 +32,6 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import tawseel.com.tajertawseel.R;
 import tawseel.com.tajertawseel.adapters.HomePagerAdapter;
 
-/**
- * Created by Junaid-Invision on 7/2/2016.
- *
- * Edited by M Monis on 7/18/2016
- */
 public class HomeActivity extends BaseActivity implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<LocationSettingsResult> {
     protected GoogleApiClient mGoogleApiClient;
     protected LocationRequest locationRequest;
@@ -47,6 +42,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,G
     public static String id;
     private ViewPager homePager;
     private TabLayout homeTabLayout;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +87,21 @@ System.gc();
                 else
                     mDrawerLayout.openDrawer(Gravity.RIGHT);
 
+            }
+        });
+
+        toolbar.findViewById(R.id.clock).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, CardDeliveryNow.class);
+                startActivity(intent);
+            }
+
+        });
+        toolbar.findViewById(R.id.bell).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this,ActivityNotification.class));
             }
         });
         uname = LoginActivity.uname;
@@ -154,10 +165,12 @@ System.gc();
             startActivity(i);
 
         } else if (v.getId() == R.id.option2) {
-            Intent i = new Intent(HomeActivity.this, DeliveryGroupActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            startActivity(i);
+//            Intent i = new Intent(HomeActivity.this, DeliveryGroupActivity.class);
+//            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//            startActivity(i);
+            Intent intent = new Intent(HomeActivity.this, CardDeliveryNow.class);
+            startActivity(intent);
         } else if (v.getId() == R.id.option3) {
             Intent intent = new Intent(HomeActivity.this, DateOfConnectionsActivity.class);
             startActivity(intent);
@@ -165,7 +178,8 @@ System.gc();
             Intent intent = new Intent(HomeActivity.this, DelegatesQuestionActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.option5) {
-            Toast.makeText(HomeActivity.this, "Use the navigation drawer to roam around the app", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(HomeActivity.this, CardDeliveryNow.class);
+//            startActivity(intent);
         } else if (v.getId() == R.id.option6) {
             Toast.makeText(HomeActivity.this, "We are Tajer Tawseel", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.option7) {
@@ -181,13 +195,8 @@ System.gc();
             editor = settings.edit();
             editor.putString("id",null); //3
             editor.commit();
-
         }
-
-
     }
-
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()

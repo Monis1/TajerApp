@@ -13,16 +13,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <include layout="@layout/home_toolbar"
+        <include layout="@layout/toolbar_deligate"
             android:id="@+id/toolbar"/>
 
-        <android.support.design.widget.TabLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:id="@+id/home_tabLayout"
-            app:tabIndicatorColor="@color/mainColor">
+            android:id="@+id/home_tabLayout">
 
-        </android.support.design.widget.TabLayout>
+        </FrameLayout>
 
 
         <android.support.v4.view.ViewPager
@@ -46,7 +45,7 @@
         android:background="@android:color/white">
 
         <!-- drawer content -->
-        <include layout="@layout/drawer_content_layout2"/>
+        <include layout="@layout/drawer_content_layout2_new"/>
 
 
     </LinearLayout>

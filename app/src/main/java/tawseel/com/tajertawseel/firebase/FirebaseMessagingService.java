@@ -34,12 +34,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         settings = this.getSharedPreferences("deligate", Context.MODE_PRIVATE); //1
       String  id = settings.getString("id2", null);
         if (id!=null)
-        showNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("GroupID"));
+        showNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("GroupID"),remoteMessage.getData().get("GroupType"));
     }
 
-    private void showNotification(String message,String GroupID) {
+    private void showNotification(String message,String GroupID,String GroupType) {
 
         Intent i = new Intent(this,NotificationOrderDetails.class);
+        i.putExtra("gtype",GroupType);
         i.putExtra("id",GroupID);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
