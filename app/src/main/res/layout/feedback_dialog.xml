@@ -22,12 +22,14 @@
         android:layout_height="30dp"
         android:max="5"
         android:numStars="5"
-        android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:isIndicator="true"
+        android:isIndicator="false"
         android:layout_gravity="center"
-        android:id="@+id/frating" />
+        android:id="@+id/frating"
+        android:clickable="true"
+        android:rating="1"
+        android:stepSize="1" />
 
 
 

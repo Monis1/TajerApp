@@ -1,9 +1,14 @@
 package tawseel.com.tajertawseel.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +20,33 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import tawseel.com.tajertawseel.R;
+import tawseel.com.tajertawseel.activities.ActivityNotification;
+import tawseel.com.tajertawseel.activities.DateOfConnectionsActivity;
 import tawseel.com.tajertawseel.activities.DateOfConnectionsData;
+import tawseel.com.tajertawseel.activities.HomeActivity;
 import tawseel.com.tajertawseel.activities.HomePickSetActivity;
+import tawseel.com.tajertawseel.activities.NotificationData;
 import tawseel.com.tajertawseel.activities.PostNewGroupActivity;
+import tawseel.com.tajertawseel.activities.functions;
 
 /**
  * Created by Junaid-Invision on 7/29/2016.
@@ -55,7 +81,7 @@ public class DateOfConnectionsAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void showDialogue() {
+    public void showDialogue(final String gid) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -67,13 +93,46 @@ public class DateOfConnectionsAdapter extends BaseAdapter {
         lp.gravity = Gravity.BOTTOM;
         lp.dimAmount = 0.3f;
         dialog.show();
-
+        final RatingBar feedbackStars=(RatingBar)dialog.findViewById(R.id.frating);
         dialog.findViewById(R.id.BtnGiveFeedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestQueue requestQueue;
+                requestQueue= Volley.newRequestQueue(context);
+                final ProgressDialog progress = new ProgressDialog(context, ProgressDialog.THEME_HOLO_DARK);
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setMessage("Loading...");
+                progress.show();
+                StringRequest dataRequest = new StringRequest(Request.Method.GET,  functions.add+"setfeedback.php?id="+ gid+"&type=d&rating="+feedbackStars.getRating(),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
 
+                                    progress.dismiss();
+                                    Toast.makeText(context,response,Toast.LENGTH_SHORT).show();
+                                    dialog.hide();
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    progress.dismiss();
+
+                                };
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progress.dismiss();
+                            }
+                        });
+                int socketTimeout = 3000;//30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                dataRequest.setRetryPolicy(policy);
+                requestQueue.add(dataRequest);
             }
         });
+
     }
 
     @Override
@@ -82,7 +141,7 @@ public class DateOfConnectionsAdapter extends BaseAdapter {
         if(convertView== null ){
 
 
-            DateOfConnectionsData data=(DateOfConnectionsData) getItem(position);
+            final DateOfConnectionsData data=(DateOfConnectionsData) getItem(position);
         if(data.getTitle().compareTo("")!=0){
         convertView = inflater.inflate(R.layout.date_tag,null,false);
         TextView date=(TextView)convertView.findViewById(R.id.dt_title);
@@ -104,8 +163,7 @@ public class DateOfConnectionsAdapter extends BaseAdapter {
             error.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
-                    showDialogue();
+                    showDialogue(data.getGid());
                 }
             });
             gname.setText(data.getGname());
