@@ -163,7 +163,7 @@ holder.BtnLoc= (ImageView)convertView.findViewById(R.id.BtnDeligateLoc2);
                 holder2.ItemsPrice.setText(data.getItemsPrice());
 
                 holder2.PriceRangeText.setText(data.getPriceRange());
-                holder2.TotalPrice.setText(Integer.parseInt(data.getItemsPrice()) + (Integer.parseInt(data.getPriceRange())) + "");
+                holder2.TotalPrice.setText(Float.parseFloat(data.getItemsPrice()) + (Float.parseFloat(data.getPriceRange())) + "");
                 if (data.getPayMethod().equals("1"))
                 {
                     holder2.PayMethod.setText(R.string.wire_transfer);
