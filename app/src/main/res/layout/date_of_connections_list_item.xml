@@ -110,6 +110,17 @@
                     android:layout_alignTop="@+id/linearLayout"
                     android:layout_toRightOf="@+id/tick_view"
                     android:layout_toEndOf="@+id/tick_view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/error_msg"
+                    android:layout_toRightOf="@+id/error_msg"
+                    android:layout_toEndOf="@+id/error_msg"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginStart="22dp"
+                    android:id="@+id/error"
+                    android:textColor="@color/red" />
             </RelativeLayout>
 
 

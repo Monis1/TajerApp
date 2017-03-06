@@ -80,7 +80,6 @@ public class DeligateDateOfConnectionActivity extends BaseActivity {
                             DateOfConnectionsData tdata1=new DateOfConnectionsData();
                             tdata1.setTitle(jsonObj.getString("DeliveryDate"));
                             data.add(tdata1);
-
                             date=jsonObj.getString("DeliveryDate");
                             DateOfConnectionsData tdata=new DateOfConnectionsData();
                             tdata.setGid(jsonObj.getString("GroupID"));
@@ -91,6 +90,8 @@ public class DeligateDateOfConnectionActivity extends BaseActivity {
                             tdata.setDname(jsonObj.getString("UserName"));
                             tdata.setDelivers(jsonObj.getString("orders"));
                             tdata.setStars(jsonObj.getString("delivers"));
+                            if(jsonObj.getString("error").compareTo("true")==0)
+                                tdata.setError(true);
                             data.add(tdata);
 
                         }
@@ -113,6 +114,8 @@ public class DeligateDateOfConnectionActivity extends BaseActivity {
                                 tdata.setDname(jsonObj.getString("UserName"));
                                 tdata.setDelivers(jsonObj.getString("orders"));
                                 tdata.setStars(jsonObj.getString("delivers"));
+                                if(jsonObj.getString("error").compareTo("true")==0)
+                                    tdata.setError(true);
                                 data.add(tdata);
 
                             }
@@ -127,12 +130,14 @@ public class DeligateDateOfConnectionActivity extends BaseActivity {
                                 tdata.setDname(jsonObj.getString("UserName"));
                                 tdata.setDelivers(jsonObj.getString("orders"));
                                 tdata.setStars(jsonObj.getString("delivers"));
+                                if(jsonObj.getString("error").compareTo("true")==0)
+                                    tdata.setError(true);
                                 data.add(tdata);
                             }
                         }
                     }
                     progress.dismiss();
-                    mLisView.setAdapter(new DelegatesDateOfConnectionAdapter(DeligateDateOfConnectionActivity.this,data));
+                    mLisView.setAdapter(new DelegatesDateOfConnectionAdapter(DeligateDateOfConnectionActivity.this,data,getWindow()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     progress.dismiss();
