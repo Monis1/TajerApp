@@ -1,5 +1,6 @@
 package tawseel.com.tajertawseel.fragments;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,16 +9,22 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import tawseel.com.tajertawseel.activities.DeliveryGroupActivity;
 import tawseel.com.tajertawseel.activities.LoginActivity;
 import tawseel.com.tajertawseel.activities.PostGroupActivity;
+import tawseel.com.tajertawseel.activities.PostNewGroupActivity;
+import tawseel.com.tajertawseel.activities.PostNewGroupTajerLapActivity;
 import tawseel.com.tajertawseel.activities.functions;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -51,15 +58,54 @@ public class HomeFragment3 extends Fragment {
     private ListView listView;
     private View mRootView;private RequestQueue requestQueue;
     ArrayList<HomeFragment3Data> list = new ArrayList<>();;
-    LinearLayout ll;
+    RelativeLayout ll;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_home2,null,false);
-        ll=(LinearLayout) mRootView.findViewById(R.id.llayout);
+        ll=(RelativeLayout) mRootView.findViewById(R.id.llayout);
         //setupContentView();
+        mRootView.findViewById(R.id.MyGroup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogugFloatingButton();
+            }
+        });
         return mRootView;
+    }
+
+    public void showDialogugFloatingButton() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.new_group_dialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(getActivity().getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.gravity = Gravity.BOTTOM;
+        lp.dimAmount = 0.3f;
+        dialog.show();
+
+
+        dialog.findViewById(R.id.tl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PostNewGroupTajerLapActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(intent);
+
+            }
+        });
+        dialog.findViewById(R.id.tt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),PostNewGroupActivity.class));
+            }
+        });
+
     }
 
     @Override
