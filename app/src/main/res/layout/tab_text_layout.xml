@@ -10,6 +10,7 @@
         android:id="@+id/tab_text"
         android:textColor="@color/mainColor"
         android:textSize="16dp"
+        android:text="dum"
         />
 
 </LinearLayout>

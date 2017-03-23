@@ -122,7 +122,7 @@ System.gc();
 
         // TabLayout.Tab tab1= homeTabLayout.getTabAt(0);
 
-        View view1 = inflater.inflate(R.layout.tab_text_layout, null, false);
+        View view1 = inflater.inflate(R.layout.tab_text_layout, null);
         TextView text = (TextView) view1.findViewById(R.id.tab_text);
         text.setText(getString(R.string.tajerlapgroup));
         homeTabLayout.getTabAt(0).setCustomView(view1);
@@ -132,7 +132,7 @@ System.gc();
 
         // TabLayout.Tab tab2= homeTabLayout.getTabAt(0);
 
-        View view2 = inflater.inflate(R.layout.tab_text_layout, null, false);
+        View view2 = inflater.inflate(R.layout.tab_text_layout, null);
         TextView text2 = (TextView) view2.findViewById(R.id.tab_text);
         text2.setText(getString(R.string.tajertawseelgroup));
         homeTabLayout.getTabAt(1).setCustomView(view2);

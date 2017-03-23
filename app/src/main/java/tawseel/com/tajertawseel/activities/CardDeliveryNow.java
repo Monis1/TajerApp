@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import tawseel.com.tajertawseel.CustomBoldTextView;
 import tawseel.com.tajertawseel.R;
 import tawseel.com.tajertawseel.adapters.CarDeliveryPagerAdapter;
 import tawseel.com.tajertawseel.adapters.HomePagerAdapter;
@@ -19,11 +22,32 @@ import tawseel.com.tajertawseel.adapters.HomePagerAdapter;
 public class CardDeliveryNow extends BaseActivity {
     private ViewPager homePager;
     private TabLayout homeTabLayout;
+    private CustomBoldTextView title;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_delivery_now);
-SetUpComponent();
+        setUpToolbar();
+        SetUpComponent();
+
+    }
+
+    private void setUpToolbar ()
+    {
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        title = (CustomBoldTextView)toolbar.findViewById(R.id.title_text);
+        title.setText(getString(R.string.drawer_option2));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+
+            }
+        });
 
     }
 

@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/ItemsPrice"
                     android:textColor="@color/mainColor"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </LinearLayout>
