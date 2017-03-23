@@ -7,13 +7,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import tawseel.com.tajertawseel.CustomBoldTextView;
 import tawseel.com.tajertawseel.R;
 import tawseel.com.tajertawseel.adapters.CarDeliveryPagerAdapter;
-import tawseel.com.tajertawseel.adapters.HomePagerAdapter;
 
 /**
  * Created by Abdul Moeed on 12/5/2016.

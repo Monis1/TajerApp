@@ -48,7 +48,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,G
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-System.gc();
+        System.gc();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)

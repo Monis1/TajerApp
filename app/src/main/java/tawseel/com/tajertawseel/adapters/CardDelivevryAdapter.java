@@ -4,15 +4,19 @@ package tawseel.com.tajertawseel.adapters;
  * Created by AbdulMoeed on 11/24/2016.
  */
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,13 +54,15 @@ public class CardDelivevryAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     ArrayList<CardDeliveryFragment3Data> List;
+    Window window;
 
 
-    public CardDelivevryAdapter(Context c,ArrayList<CardDeliveryFragment3Data> list)
+    public CardDelivevryAdapter(Context c,ArrayList<CardDeliveryFragment3Data> list,Window window)
     {
         context = c ;
         inflater = LayoutInflater.from(c);
        List=list;
+        this.window=window;
     }
 
 
@@ -107,52 +113,7 @@ public class CardDelivevryAdapter extends BaseAdapter {
          holder.Cancel.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 RequestQueue requestQueue;
-                 requestQueue = Volley.newRequestQueue(context);
-                 final ProgressDialog progress = new ProgressDialog(context, ProgressDialog.THEME_HOLO_DARK);
-                 progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                 progress.setMessage("Loading...");
-                 progress.show();
-                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"cancelorder.php?gid="+ data.getGroupID()
-                         ,
-                         new Response.Listener<JSONObject>() {
-                             @Override
-                             public void onResponse(JSONObject response) {
-                                 try {
-                                         JSONArray jsonArr=response.getJSONArray("info");
-                                         final JSONObject jsonObj = jsonArr.getJSONObject(0);
-                                         String message=jsonObj.getString("message");
-                                     if(message.compareTo("deleted")==0){
-                                         Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
-                                     }
-                                         else
-                                     Toast.makeText(context,"Error: Cannot be Cancelled",Toast.LENGTH_SHORT).show();
-                                         progress.dismiss();
-
-                                 } catch (JSONException e) {
-                                     e.printStackTrace();
-                                     progress.dismiss();
-                                     if ((e.getClass().equals(TimeoutError.class)) || e.getClass().equals(NoConnectionError.class)){
-
-                                     }
-                                 };
-                             }
-                         },
-                         new Response.ErrorListener() {
-                             @Override
-                             public void onErrorResponse(VolleyError error) {
-                                 Log.e("Volley", "Error");
-                                 progress.dismiss();
-                                 if ((error.getClass().equals(TimeoutError.class)) || error.getClass().equals(NoConnectionError.class)){
-                                    }
-                             }
-                         });
-
-                 int socketTimeout = 3000;//30 seconds - change to what you want
-                 RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-                 jsonObjectRequest.setRetryPolicy(policy);
-                 requestQueue.add(jsonObjectRequest);
-
+                OpenConfirmationDialog(data.getGroupID());
              }
          });
 //
@@ -177,5 +138,78 @@ public class CardDelivevryAdapter extends BaseAdapter {
 //        });
 
         return convertView;
+    }
+
+    private void OpenConfirmationDialog(final String groupID) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.choose_confirmation_dialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.gravity = Gravity.BOTTOM;
+        lp.dimAmount = 0.3f;
+        dialog.show();
+
+        dialog.findViewById(R.id.ButtonYes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RequestQueue requestQueue;
+                requestQueue = Volley.newRequestQueue(context);
+                final ProgressDialog progress = new ProgressDialog(context, ProgressDialog.THEME_HOLO_DARK);
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setMessage("Loading...");
+                progress.show();
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"cancelorder.php?gid="+groupID
+                        ,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray jsonArr=response.getJSONArray("info");
+                                    final JSONObject jsonObj = jsonArr.getJSONObject(0);
+                                    String message=jsonObj.getString("message");
+                                    if(message.compareTo("deleted")==0){
+                                        Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                        Toast.makeText(context,"Error: Cannot be Cancelled",Toast.LENGTH_SHORT).show();
+                                    progress.dismiss();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    progress.dismiss();
+                                    if ((e.getClass().equals(TimeoutError.class)) || e.getClass().equals(NoConnectionError.class)){
+
+                                    }
+                                };
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Volley", "Error");
+                                progress.dismiss();
+                                if ((error.getClass().equals(TimeoutError.class)) || error.getClass().equals(NoConnectionError.class)){
+                                }
+                            }
+                        });
+
+                int socketTimeout = 3000;//30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                jsonObjectRequest.setRetryPolicy(policy);
+                requestQueue.add(jsonObjectRequest);
+
+            }
+        });
+
+        dialog.findViewById(R.id.ButtonNo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
     }
 }

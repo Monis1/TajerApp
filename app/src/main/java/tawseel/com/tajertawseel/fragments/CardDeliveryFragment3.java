@@ -107,7 +107,7 @@ public class CardDeliveryFragment3 extends Fragment {
                                 delegate.setName(jsonObj.getString("dname"));
                                 dlist.add(delegate);
                             }
-                            listView.setAdapter(new CardDelivevryAdapter(getActivity(),list));
+                            listView.setAdapter(new CardDelivevryAdapter(getActivity(),list,getActivity().getWindow()));
 
                             progress.dismiss();
 
