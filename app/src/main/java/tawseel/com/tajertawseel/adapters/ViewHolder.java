@@ -28,7 +28,7 @@ import tawseel.com.tajertawseel.customviews.ExpandablePanel;
  */
 public class ViewHolder {
     //DeliverGroupAdapter
-    TextView name, noOfOrders, btn, grpID, ItemPrice, PriceRange;
+    TextView name, noOfOrders, btn, grpID, ItemPrice, PriceRange,Code;
     //PostGroupAdapter
     TextView PriceRange2, PayMethod,BtnCode, BtnStatus, ItemsPrice, CustomerName, CustomerEmail,Price, CustomerPhone, OrderID, PriceRangeText, TotalPrice, OrderProductQuantity;
     View PriceRangeIcon;

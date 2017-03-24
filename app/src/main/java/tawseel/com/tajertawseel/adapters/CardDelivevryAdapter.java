@@ -96,6 +96,7 @@ public class CardDelivevryAdapter extends BaseAdapter {
             holder.ItemPrice = (TextView) convertView.findViewById(R.id.ItemsPrice);
             holder.PriceRange = (TextView) convertView.findViewById(R.id.PriceRange);
             holder.grpID = (TextView) convertView.findViewById(R.id.GroupID);
+            holder.Code=(TextView)convertView.findViewById(R.id.textView6);
             convertView.setTag(holder);
         }
         else
@@ -110,6 +111,12 @@ public class CardDelivevryAdapter extends BaseAdapter {
         holder.grpID.setText(data.getGroupID());
        holder.ConfrmatonCode.setText(data.getConfirmationCode());
 
+       holder.Code.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+                  CheckForCode(data.getGroupID());
+           }
+       });
          holder.Cancel.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -138,6 +145,77 @@ public class CardDelivevryAdapter extends BaseAdapter {
 //        });
 
         return convertView;
+    }
+
+    private void CheckForCode(String groupID) {
+        RequestQueue requestQueue;
+        requestQueue = Volley.newRequestQueue(context);
+        final ProgressDialog progress = new ProgressDialog(context, ProgressDialog.THEME_HOLO_DARK);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setMessage("Loading...");
+        progress.show();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,  functions.add+"checkcode.php?gid="+groupID
+                ,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArr=response.getJSONArray("info");
+                            final JSONObject jsonObj = jsonArr.getJSONObject(0);
+                            String time=jsonObj.getString("CodeTimer");
+                            if(time.compareTo("0")==0){
+                                Toast.makeText(context, "Code Sent!", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                ShowTimeDialog(time);
+                            progress.dismiss();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progress.dismiss();
+                            if ((e.getClass().equals(TimeoutError.class)) || e.getClass().equals(NoConnectionError.class)){
+
+                            }
+                        };
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley", "Error");
+                        progress.dismiss();
+                        if ((error.getClass().equals(TimeoutError.class)) || error.getClass().equals(NoConnectionError.class)){
+                        }
+                    }
+                });
+
+        int socketTimeout = 3000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void ShowTimeDialog(String time) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.choose_confirmation_dialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.gravity = Gravity.BOTTOM;
+        lp.dimAmount = 0.3f;
+
+        TextView timer=(TextView)dialog.findViewById(R.id.timer);
+        timer.setText(time+"minutes\nremaining...");
+        dialog.show();
+        dialog.findViewById(R.id.ButtonOk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
     }
 
     private void OpenConfirmationDialog(final String groupID) {
